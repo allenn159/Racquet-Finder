@@ -58,17 +58,23 @@ const babolatRacquets = {
 //   },
 // };
 
-const babolatPower = () => {
-  for (let racquet of babolatRacquets.model) {
-    if (racquet.power > 14) {
-      console.log(racquet.name);
-    }
-  }
-};
+// const babolatPower = () => {
+//   for (let racquet of babolatRacquets.model) {
+//     if (racquet.power > 14) {
+//       console.log(racquet.name);
+//     }
+//   }
+// };
+
+// const babolatAlone = () => {
+//   for (let selection of babolatRacquets.model) {
+//     const babolatArray = Object.values(selection);
+//     console.log(babolatArray);
+//   }
+// };
 
 const babolatAlone = () => {
-  for (let selection of babolatRacquets.model) {
-    const babolatArray = Object.values(selection);
-    console.log(babolatArray);
-  }
+  const babolat = Object.values(babolatRacquets.model);
+  const randomRacquet = babolat[Math.floor(Math.random() * babolat.length)];
+  console.log(randomRacquet);
 };

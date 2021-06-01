@@ -10,7 +10,7 @@ const babolat = document.querySelector("#babolat");
 
 const babolatSelected = () => {
   if (babolat.checked === true) {
-    
+    babolatAlone();
   }
 };
 
@@ -19,6 +19,7 @@ const checkboxesArr = Array.from(checkboxes);
 const isChecked = () => {
   if (checkboxesArr.some((e) => e.checked) === true) {
     errorMessage.innerHTML = "";
+    babolatSelected();
   } else {
     errorMessage.innerHTML = "Please select a checkbox";
   }
