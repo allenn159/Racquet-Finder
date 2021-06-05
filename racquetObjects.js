@@ -10,7 +10,7 @@ const babolatRacquets = {
       power: 14,
       control: 12,
       popularity: 9,
-      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BPAR-1.jpg&nw=700",
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BPATRR-1.jpg&nw=700",
     },
     {
       id: 51,
@@ -72,9 +72,3 @@ const babolatRacquets = {
 //     console.log(babolatArray);
 //   }
 // };
-
-const babolatAlone = () => {
-  const babolat = Object.values(babolatRacquets.model);
-  const randomRacquet = babolat[Math.floor(Math.random() * babolat.length)];
-  console.log(randomRacquet);
-};
