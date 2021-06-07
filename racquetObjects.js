@@ -23,10 +23,34 @@ const babolatRacquets = {
     {
       id: 52,
       name: "Pure Aero Plus",
-      power: 15,
-      control: 11,
+      power: 16,
+      control: 10,
       popularity: 4,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BPATRR-1.jpg&nw=700",
+    },
+    {
+      id: 53,
+      name: "Pure Drive 2021",
+      power: 16,
+      control: 11,
+      popularity: 9,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BRPDR-1.jpg",
+    },
+    {
+      id: 54,
+      name: "Pure Drive Plus 2021",
+      power: 17,
+      control: 10,
+      popularity: 5,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BRPDP-1.jpg",
+    },
+    {
+      id: 53,
+      name: "Pure Drive Tour 2021",
+      power: 12,
+      control: 13,
+      popularity: 5,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BRPDT-1.jpg",
     },
   ],
 };
@@ -63,12 +87,5 @@ const babolatRacquets = {
 //     if (racquet.power > 14) {
 //       console.log(racquet.name);
 //     }
-//   }
-// };
-
-// const babolatAlone = () => {
-//   for (let selection of babolatRacquets.model) {
-//     const babolatArray = Object.values(selection);
-//     console.log(babolatArray);
 //   }
 // };
