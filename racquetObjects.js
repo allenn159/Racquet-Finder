@@ -2,8 +2,8 @@
 // Control scale will be from 1-20
 // Popularity scale will be from 1-10
 
-const babolatRacquets = {
-  model: [
+const racquets = {
+  babolat: [
     {
       id: 50,
       name: "Pure Aero",

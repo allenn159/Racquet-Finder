@@ -4,16 +4,19 @@ const errorMessage = document.getElementById("errormessage");
 const racquetContainer = document.getElementById("racquetcontainer");
 const racquetDetails = document.getElementById("racquetdetails");
 const bench = document.getElementById("bench");
-const babolatObject = Object.values(babolatRacquets.model);
+const babolatObject = Object.values(racquets.babolat);
 
 const babolat = document.querySelector("#babolat");
 const power = document.querySelector("#power");
 
 const checkboxesArr = Array.from(checkboxes);
 
+// Checks to see if at least one checkbox is selected.
+
 const isChecked = () => {
   if (checkboxesArr.some((e) => e.checked) === true) {
     errorMessage.innerHTML = "";
+    findButton.remove();
     buttonDiv.append(resetBtn);
     selectedBabolat();
   } else {
@@ -21,30 +24,52 @@ const isChecked = () => {
   }
 };
 
+findButton.addEventListener("click", isChecked);
+
+// Unchecks all selected checkboxes and clears at the currently shown racquet in the container.
+
 const unCheckAll = () => {
   checkboxesArr.forEach((el) => (el.checked = false));
   resetBtn.remove();
   racquetContainer.innerHTML = "";
+  buttonDiv.append(findButton);
 };
-
-findButton.addEventListener("click", isChecked);
 
 const buttonDiv = document.querySelector("#buttons");
 const resetBtn = document.createElement("button");
 resetBtn.type = "button";
-resetBtn.innerHTML = "Reset";
+resetBtn.innerHTML = "Uncheck All";
 
 resetBtn.addEventListener("click", unCheckAll);
 
-//Checking to see if Babolat with/without additional setting was selected
+// Adds next button to show next available racquet options based on checked boxes.
+
+const nextButton = document.createElement("button");
+nextButton.classList.add("nextButton");
+nextButton.innerHTML = "Next";
+
+//Checking to see if Babolat with/without additional attribute was selected
 
 const selectedBabolat = () => {
+  nextBabolat();
   if (babolat.checked === true && power.checked === false) {
     babolatAlone();
   } else if (babolat.checked === true && power.checked === true) {
     babolatPower();
   }
 };
+
+// Adds next button for next option which will show results based on what is checked.
+
+const nextBabolat = () => {
+  racquetContainer.append(nextButton);
+  nextButton.addEventListener("click", () => {
+    bench.append(racquetContainer.lastChild);
+    babolatAlone();
+  });
+};
+
+// This function filters out racquets only when the Babolat checkbox is selected.
 
 const babolatAlone = () => {
   // Selects a random Babolat racquet and remove from array
@@ -56,15 +81,20 @@ const babolatAlone = () => {
   if (randomRacquet === undefined) {
     console.log("NO more");
   } else {
+    const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
 
     racquetIMG.src = `${randomRacquet.img}`;
     newRacDiv.append(racquetIMG, randomRacquet.name);
     newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
-    racquetContainer.append(newRacDiv);
+    racquetPod.append(newRacDiv);
+    racquetPod.setAttribute("class", "racquetPod");
+    racquetContainer.append(racquetPod);
   }
 };
+
+// Filter out Babolat racquets with power rating equal to or above 15 and push it into new array.
 
 const randomBabolatPowerArr = [];
 
@@ -74,6 +104,8 @@ babolatObject.filter((e) => {
   }
 });
 
+// This function filters out racquets only when the Babolat and Power checkbox is selected.
+
 const babolatPower = () => {
   // Selects a random Babolat power racquet and remove from array
   const randomPowerRacquet = randomBabolatPowerArr.splice(
@@ -82,15 +114,16 @@ const babolatPower = () => {
   )[0];
 
   if (randomPowerRacquet === undefined) {
-    console.log("NO more");
   } else {
+    const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
 
     racquetIMG.src = `${randomPowerRacquet.img}`;
     newRacDiv.append(racquetIMG, randomPowerRacquet.name);
     newRacDiv.setAttribute("class", `${randomPowerRacquet.name.toLowerCase()}`);
-    racquetContainer.append(newRacDiv);
-    console.log(randomPowerRacquet);
+    racquetPod.append(newRacDiv);
+    racquetPod.setAttribute("class", "racquetPod");
+    racquetContainer.append(racquetPod);
   }
 };
