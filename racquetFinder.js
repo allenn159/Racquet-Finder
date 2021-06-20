@@ -1,6 +1,6 @@
 const findButton = document.querySelector("#find");
+const allButtons = document.querySelector("#buttons");
 const checkboxes = document.querySelectorAll("input[type=checkbox]");
-const errorMessage = document.getElementById("errormessage");
 const racquetContainer = document.getElementById("racquetcontainer");
 const racquetDetails = document.getElementById("racquetdetails");
 const bench = document.getElementById("bench");
@@ -11,34 +11,67 @@ const power = document.querySelector("#power");
 
 const checkboxesArr = Array.from(checkboxes);
 
+// Create error message
+
+const errorMessage = document.createElement("div");
+errorMessage.innerText = "Please select a checkbox!";
+
 // Checks to see if at least one checkbox is selected.
 
 const isChecked = () => {
-  if (checkboxesArr.some((e) => e.checked) === true) {
-    errorMessage.innerHTML = "";
+  if (checkboxesArr.some((el) => el.checked) === true) {
+    errorMessage.remove();
     findButton.remove();
     buttonDiv.append(resetBtn);
     selectedBabolat();
   } else {
-    errorMessage.innerHTML = "Please select a checkbox";
+    allButtons.append(errorMessage);
+  }
+};
+
+// Continues to check if the Babolat checkbox is selected for the next button.
+
+const isCheckedBabolat = () => {
+  if (babolat.checked) {
+    selectedBabolat();
+  } else {
+    console.log("Returns Null");
   }
 };
 
 findButton.addEventListener("click", isChecked);
+
+// If no checkboxes are selected, replaces all current buttons with only the find button.
+
+checkboxes.forEach((e) => {
+  e.addEventListener("change", function () {
+    if (this.checked) {
+      console.log("Checkbox is checked..");
+    } else {
+      allButtons.append(findButton);
+      nextButton.remove();
+      resetBtn.remove();
+    }
+  });
+});
 
 // Unchecks all selected checkboxes and clears at the currently shown racquet in the container.
 
 const unCheckAll = () => {
   checkboxesArr.forEach((el) => (el.checked = false));
   resetBtn.remove();
-  racquetContainer.innerHTML = "";
+  nextButton.remove();
   buttonDiv.append(findButton);
+
+  while (racquetContainer.firstChild) {
+    racquetContainer.removeChild(racquetContainer.firstChild);
+  }
 };
 
 const buttonDiv = document.querySelector("#buttons");
 const resetBtn = document.createElement("button");
 resetBtn.type = "button";
-resetBtn.innerHTML = "Uncheck All";
+resetBtn.innerText = "Uncheck All";
 
 resetBtn.addEventListener("click", unCheckAll);
 
@@ -51,7 +84,7 @@ nextButton.innerHTML = "Next";
 //Checking to see if Babolat with/without additional attribute was selected
 
 const selectedBabolat = () => {
-  nextBabolat();
+  allButtons.append(nextButton);
   if (babolat.checked === true && power.checked === false) {
     babolatAlone();
   } else if (babolat.checked === true && power.checked === true) {
@@ -61,13 +94,10 @@ const selectedBabolat = () => {
 
 // Adds next button for next option which will show results based on what is checked.
 
-const nextBabolat = () => {
-  racquetContainer.append(nextButton);
-  nextButton.addEventListener("click", () => {
-    bench.append(racquetContainer.lastChild);
-    babolatAlone();
-  });
-};
+nextButton.addEventListener("click", () => {
+  bench.append(racquetContainer.lastChild);
+  isCheckedBabolat();
+});
 
 // This function filters out racquets only when the Babolat checkbox is selected.
 
@@ -79,7 +109,8 @@ const babolatAlone = () => {
   )[0];
 
   if (randomRacquet === undefined) {
-    console.log("NO more");
+    nextButton.remove();
+    racquetContainer.innerText = "Please select new search parameters!";
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
