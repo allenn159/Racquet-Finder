@@ -8,6 +8,7 @@ const babolatObject = Object.values(racquets.babolat);
 
 const babolat = document.querySelector("#babolat");
 const power = document.querySelector("#power");
+const control = document.querySelector("#control");
 
 const checkboxesArr = Array.from(checkboxes);
 
@@ -29,25 +30,13 @@ const isChecked = () => {
   }
 };
 
-// Continues to check if the Babolat checkbox is selected for the next button.
-
-const isCheckedBabolat = () => {
-  if (babolat.checked) {
-    selectedBabolat();
-  } else {
-    console.log("Returns Null");
-  }
-};
-
 findButton.addEventListener("click", isChecked);
 
-// If no checkboxes are selected, replaces all current buttons with only the find button.
+// Checks to see if the checkboxes are toggled.
 
 checkboxes.forEach((e) => {
   e.addEventListener("change", function () {
-    if (this.checked) {
-      console.log("Checkbox is checked..");
-    } else {
+    if (this.checked === true || this.checked === false) {
       allButtons.append(findButton);
       nextButton.remove();
       resetBtn.remove();
@@ -81,15 +70,42 @@ const nextButton = document.createElement("button");
 nextButton.classList.add("nextButton");
 nextButton.innerHTML = "Next";
 
-//Checking to see if Babolat with/without additional attribute was selected
+//Checking to see if Babolat with or without additional attribute was selected
+
+const checkItBaby = () => {
+  checkboxesArr.filter((checkbox) => {
+    if (checkbox.checked === true) {
+      return true;
+    }
+  });
+};
+
+// const selectedBabolat = () => {
+//   allButtons.append(nextButton);
+//   if (
+//     babolat.checked === true &&
+//     power.checked === false &&
+//     control.checked === false
+//   ) {
+//     babolatAlone();
+//   } else if (
+//     babolat.checked === true &&
+//     power.checked === true &&
+//     control.checked === false
+//   ) {
+//     babolatPower();
+//   } else if (
+//     babolat.checked === true &&
+//     power.checked === false &&
+//     control.checked === true
+//   ) {
+//     babolatControl();
+//   }
+// };
 
 const selectedBabolat = () => {
   allButtons.append(nextButton);
-  if (babolat.checked === true && power.checked === false) {
-    babolatAlone();
-  } else if (babolat.checked === true && power.checked === true) {
-    babolatPower();
-  }
+  checkItBaby();
 };
 
 // Adds next button for next option which will show results based on what is checked.
@@ -98,6 +114,14 @@ nextButton.addEventListener("click", () => {
   bench.append(racquetContainer.lastChild);
   isCheckedBabolat();
 });
+
+// Continues to check if at least the Babolat checkbox is selected for the next button.
+
+const isCheckedBabolat = () => {
+  if (babolat.checked) {
+    selectedBabolat();
+  }
+};
 
 // This function filters out racquets only when the Babolat checkbox is selected.
 
@@ -125,7 +149,7 @@ const babolatAlone = () => {
   }
 };
 
-// Filter out Babolat racquets with power rating equal to or above 15 and push it into new array.
+// Filter out Babolat racquets with power rating equal to or above 15 and pushes it into new array.
 
 const randomBabolatPowerArr = [];
 
@@ -145,6 +169,8 @@ const babolatPower = () => {
   )[0];
 
   if (randomPowerRacquet === undefined) {
+    nextButton.remove();
+    racquetContainer.innerText = "Please select new search parameters!";
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
@@ -153,6 +179,45 @@ const babolatPower = () => {
     racquetIMG.src = `${randomPowerRacquet.img}`;
     newRacDiv.append(racquetIMG, randomPowerRacquet.name);
     newRacDiv.setAttribute("class", `${randomPowerRacquet.name.toLowerCase()}`);
+    racquetPod.append(newRacDiv);
+    racquetPod.setAttribute("class", "racquetPod");
+    racquetContainer.append(racquetPod);
+  }
+};
+
+// Filter out Babolat racquets with control rating equal to or above 15 and pushes it into new array.
+
+const randomBabolatControlArr = [];
+
+babolatObject.filter((e) => {
+  if (e.control >= 15) {
+    randomBabolatControlArr.push(e);
+  }
+});
+
+// This function filters out racquets only when the Babolat and Control checkbox is selected.
+
+const babolatControl = () => {
+  // Selects a random Babolat power racquet and remove from array
+  const randomControlRacquet = randomBabolatControlArr.splice(
+    Math.floor(Math.random() * randomBabolatControlArr.length),
+    1
+  )[0];
+
+  if (randomControlRacquet === undefined) {
+    nextButton.remove();
+    racquetContainer.innerText = "Please select new search parameters!";
+  } else {
+    const racquetPod = document.createElement("div");
+    const newRacDiv = document.createElement("div");
+    const racquetIMG = document.createElement("img");
+
+    racquetIMG.src = `${randomControlRacquet.img}`;
+    newRacDiv.append(racquetIMG, randomControlRacquet.name);
+    newRacDiv.setAttribute(
+      "class",
+      `${randomControlRacquet.name.toLowerCase()}`
+    );
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetPod");
     racquetContainer.append(racquetPod);

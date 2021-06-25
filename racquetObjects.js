@@ -6,7 +6,7 @@ const racquets = {
   babolat: [
     {
       id: 50,
-      name: "Pure Aero",
+      name: "Babolat Pure Aero",
       power: 14,
       control: 12,
       popularity: 9,
@@ -14,15 +14,15 @@ const racquets = {
     },
     {
       id: 51,
-      name: "Pure Aero Tour",
+      name: "Babolat Pure Aero Tour",
       power: 12,
-      control: 14,
+      control: 15,
       popularity: 4,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BPATRR-1.jpg&nw=700",
     },
     {
       id: 52,
-      name: "Pure Aero Plus",
+      name: "Babolat Pure Aero Plus",
       power: 16,
       control: 10,
       popularity: 4,
@@ -30,7 +30,7 @@ const racquets = {
     },
     {
       id: 53,
-      name: "Pure Drive 2021",
+      name: "Babolat Pure Drive 2021",
       power: 16,
       control: 11,
       popularity: 9,
@@ -38,54 +38,117 @@ const racquets = {
     },
     {
       id: 54,
-      name: "Pure Drive Plus 2021",
+      name: "Babolat Pure Drive Plus 2021",
       power: 17,
-      control: 10,
+      control: 12,
       popularity: 5,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BRPDP-1.jpg",
     },
     {
-      id: 53,
-      name: "Pure Drive Tour 2021",
-      power: 12,
+      id: 55,
+      name: "Babolat Pure Strike 16x19 3rd Gen",
+      power: 15,
       control: 13,
+      popularity: 9,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=PS1619-1.jpg",
+    },
+    {
+      id: 56,
+      name: "Babolat Pure Strike 18x20 3rd Gen",
+      power: 13,
+      control: 17,
       popularity: 5,
-      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BRPDT-1.jpg",
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=PS182-1.jpg",
+    },
+    {
+      id: 57,
+      name: "Babolat Pure Strike Tour 3rd Gen",
+      power: 13,
+      control: 17,
+      popularity: 4,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BPSTTO-1.jpg",
+    },
+    {
+      id: 58,
+      name: "Babolat Pure Strike 100 3rd Gen",
+      power: 16,
+      control: 14,
+      popularity: 6,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BPSTRI-1.jpg",
+    },
+  ],
+  wilson: [
+    {
+      id: 60,
+      name: "Wilson Clash 100",
+      power: 14,
+      control: 12,
+      popularity: 9,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WC100R-1.jpg&nw=700",
+    },
+    {
+      id: 61,
+      name: "Wilson Clash 98",
+      power: 13,
+      control: 13,
+      popularity: 7,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WC98R-1.jpg&nw=700",
+    },
+    {
+      id: 62,
+      name: "Wilson Clash 100 Pro (Formerly Tour)",
+      power: 12,
+      control: 14,
+      popularity: 6,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WCTR-1.jpg",
+    },
+    {
+      id: 63,
+      name: "Wilson Blade 98 16x19 v7",
+      power: 15,
+      control: 13,
+      popularity: 9,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WC100R-1.jpg&nw=700",
+    },
+    {
+      id: 64,
+      name: "Wilson Blade 98 18x20 v7",
+      power: 13,
+      control: 16,
+      popularity: 6,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WB9882-1.jpg",
+    },
+    {
+      id: 65,
+      name: "Wilson Blade 104 v7",
+      power: 16,
+      control: 13,
+      popularity: 7,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WB104R-1.jpg",
+    },
+    {
+      id: 66,
+      name: "Wilson Pro Staff 97 v13",
+      power: 15,
+      control: 15,
+      popularity: 9,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=W97V13-1.jpg",
+    },
+    {
+      id: 67,
+      name: "Wilson Pro Staff RF97 v13",
+      power: 14,
+      control: 17,
+      popularity: 9,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=97V13R-1.jpg",
+    },
+    {
+      id: 68,
+      name: "Wilson Pro Staff 97L",
+      power: 14,
+      control: 12,
+      popularity: 6,
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=97LV13-1.jpg",
     },
   ],
 };
-
-// const wilsonRacquets = {
-//   model: {
-//     id: 60,
-//     name: "Wilson Clash 100",
-//     power: 14,
-//     control: 12,
-//     popularity: 9,
-//     img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WC100R-1.jpg&nw=700",
-//   },
-//   model: {
-//     id: 61,
-//     name: "Wilson Clash 98",
-//     power: 13,
-//     control: 13,
-//     popularity: 7,
-//     img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WC98R-1.jpg&nw=700",
-//   },
-//   model: {
-//     id: 62,
-//     name: "Wilson Clash 100 Pro (Formerly Tour)",
-//     power: 12,
-//     control: 14,
-//     popularity: 6,
-//     img: "https://img.tenniswarehouse-europe.com/watermark/rs.php?path=WCTR-1.jpg&nw=700",
-//   },
-// };
-
-// const babolatPower = () => {
-//   for (let racquet of babolatRacquets.model) {
-//     if (racquet.power > 14) {
-//       console.log(racquet.name);
-//     }
-//   }
-// };
