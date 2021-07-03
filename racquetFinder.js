@@ -9,6 +9,7 @@ const babolatObject = Object.values(racquets.babolat);
 const babolat = document.querySelector("#babolat");
 const power = document.querySelector("#power");
 const control = document.querySelector("#control");
+const popular = document.querySelector("#popular");
 
 const checkboxesArr = Array.from(checkboxes);
 
@@ -40,6 +41,7 @@ checkboxes.forEach((e) => {
       allButtons.append(findButton);
       nextButton.remove();
       resetBtn.remove();
+      errorMessage.remove();
     }
   });
 });
@@ -72,40 +74,46 @@ nextButton.innerHTML = "Next";
 
 //Checking to see if Babolat with or without additional attribute was selected
 
-const checkItBaby = () => {
-  checkboxesArr.filter((checkbox) => {
-    if (checkbox.checked === true) {
-      return true;
-    }
-  });
-};
-
-// const selectedBabolat = () => {
-//   allButtons.append(nextButton);
-//   if (
-//     babolat.checked === true &&
-//     power.checked === false &&
-//     control.checked === false
-//   ) {
-//     babolatAlone();
-//   } else if (
-//     babolat.checked === true &&
-//     power.checked === true &&
-//     control.checked === false
-//   ) {
-//     babolatPower();
-//   } else if (
-//     babolat.checked === true &&
-//     power.checked === false &&
-//     control.checked === true
-//   ) {
-//     babolatControl();
-//   }
-// };
-
 const selectedBabolat = () => {
   allButtons.append(nextButton);
-  checkItBaby();
+  if (
+    babolat.checked === true &&
+    power.checked === false &&
+    control.checked === false &&
+    popular.checked === false
+  ) {
+    babolatAlone();
+  } else if (
+    babolat.checked === true &&
+    power.checked === true &&
+    control.checked === false &&
+    popular.checked === false
+  ) {
+    babolatPower();
+  } else if (
+    babolat.checked === true &&
+    power.checked === false &&
+    control.checked === true &&
+    popular.checked === false
+  ) {
+    babolatControl();
+  } else if (
+    babolat.checked === true &&
+    power.checked === false &&
+    control.checked === false &&
+    popular.checked === true
+  ) {
+    babolatPopular();
+  } else if (
+    babolat.checked === true &&
+    power.checked === true &&
+    control.checked === true &&
+    popular.checked === false
+  ) {
+    babolatPowerControl();
+  } else {
+    babolatAll();
+  }
 };
 
 // Adds next button for next option which will show results based on what is checked.
@@ -217,6 +225,120 @@ const babolatControl = () => {
     newRacDiv.setAttribute(
       "class",
       `${randomControlRacquet.name.toLowerCase()}`
+    );
+    racquetPod.append(newRacDiv);
+    racquetPod.setAttribute("class", "racquetPod");
+    racquetContainer.append(racquetPod);
+  }
+};
+
+// Filter out Babolat racquets with popular rating equal to or above 7 and pushes it into new array.
+
+const randomBabolatPopularArr = [];
+
+babolatObject.filter((e) => {
+  if (e.popularity >= 7) {
+    randomBabolatPopularArr.push(e);
+  }
+});
+
+// This function filters out racquets only when the Babolat, power, and control checkbox is selected.
+
+const babolatPopular = () => {
+  // Selects a random Babolat power racquet and remove from array
+  const randomPopularRacquet = randomBabolatPopularArr.splice(
+    Math.floor(Math.random() * randomBabolatPopularArr.length),
+    1
+  )[0];
+
+  if (randomPopularRacquet === undefined) {
+    nextButton.remove();
+    racquetContainer.innerText = "Please select new search parameters!";
+  } else {
+    const racquetPod = document.createElement("div");
+    const newRacDiv = document.createElement("div");
+    const racquetIMG = document.createElement("img");
+
+    racquetIMG.src = `${randomPopularRacquet.img}`;
+    newRacDiv.append(racquetIMG, randomPopularRacquet.name);
+    newRacDiv.setAttribute(
+      "class",
+      `${randomPopularRacquet.name.toLowerCase()}`
+    );
+    racquetPod.append(newRacDiv);
+    racquetPod.setAttribute("class", "racquetPod");
+    racquetContainer.append(racquetPod);
+  }
+};
+
+// Filter out Babolat racquets with power and control rating equal to or above 14 and pushes it into new array.
+
+const randomBabolatPowerControlArr = [];
+
+babolatObject.filter((e) => {
+  if (e.power >= 14 && e.control >= 14) {
+    randomBabolatPowerControlArr.push(e);
+  }
+});
+
+// This function filters out racquets only when the Babolat and Popular checkbox is selected.
+
+const babolatPowerControl = () => {
+  // Selects a random Babolat power racquet and remove from array
+  const randomAllRacquet = randomBabolatPowerControlArr.splice(
+    Math.floor(Math.random() * randomBabolatPowerControlArr.length),
+    1
+  )[0];
+
+  if (randomAllRacquet === undefined) {
+    nextButton.remove();
+    racquetContainer.innerText = "Please select new search parameters!";
+  } else {
+    const racquetPod = document.createElement("div");
+    const newRacDiv = document.createElement("div");
+    const racquetIMG = document.createElement("img");
+
+    racquetIMG.src = `${randomAllRacquet.img}`;
+    newRacDiv.append(racquetIMG, randomAllRacquet.name);
+    newRacDiv.setAttribute("class", `${randomAllRacquet.name.toLowerCase()}`);
+    racquetPod.append(newRacDiv);
+    racquetPod.setAttribute("class", "racquetPod");
+    racquetContainer.append(racquetPod);
+  }
+};
+
+// Filter out Babolat racquets with power and control rating above 14, and popularity rating above 7, and pushes it into new array.
+
+const randomBabolatAllArr = [];
+
+babolatObject.filter((e) => {
+  if (e.power >= 14 && e.control >= 14 && e.popularity >= 7) {
+    randomBabolatAllArr.push(e);
+  }
+});
+
+// This function filters out racquets only when the Babolat, Power, Control, and Popular checkbox is selected.
+
+const babolatAll = () => {
+  // Selects a random Babolat power racquet and remove from array
+  const randomBabolatAllRacquet = randomBabolatAllArr.splice(
+    Math.floor(Math.random() * randomBabolatAllArr.length),
+    1
+  )[0];
+
+  if (randomBabolatAllRacquet === undefined) {
+    nextButton.remove();
+    racquetContainer.innerText = "Please select new search parameters!";
+  } else {
+    const racquetPod = document.createElement("div");
+    const newRacDiv = document.createElement("div");
+    const racquetIMG = document.createElement("img");
+
+    racquetIMG.src = `${randomBabolatAllRacquet.img}`;
+    newRacDiv.append(racquetIMG, randomBabolatAllRacquet.name);
+    newRacDiv.setAttribute(
+      "class",
+      `${randomBabolatAllRacquet.name.toLowerCase()}`
     );
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetPod");
