@@ -108,7 +108,7 @@ const racquets = {
       power: 15,
       control: 13,
       popularity: 9,
-      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WC100R-1.jpg&nw=700",
+      img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WB98R-1.jpg",
     },
     {
       id: 64,
