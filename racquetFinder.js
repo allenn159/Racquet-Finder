@@ -9,6 +9,7 @@ const wilsonObject = Object.values(racquets.wilson);
 const babWilObject = Object.values(racquets.babolat.concat(racquets.wilson));
 const buttonDiv = document.querySelector("#buttons");
 const checkAllBtn = document.querySelector("#checkAll");
+const errorMessageContainer = document.querySelector("#errormessage");
 
 const babolat = document.querySelector("#babolat");
 const wilson = document.querySelector("#wilson");
@@ -18,10 +19,13 @@ const popular = document.querySelector("#popular");
 
 const checkboxesArr = Array.from(checkboxes);
 
-// Create error message
+// Create error messages
 
-const errorMessage = document.createElement("div");
+const errorMessage = document.createElement("p");
 errorMessage.innerText = "Please select a checkbox!";
+
+const secondErrorMessage = document.createElement("p");
+secondErrorMessage.innerText = "Please select new search parameters!";
 
 // Checks to see if at least one checkbox is selected.
 
@@ -32,7 +36,7 @@ const isChecked = () => {
     buttonDiv.append(resetBtn);
     nextCheck();
   } else {
-    allButtons.append(errorMessage);
+    errorMessageContainer.append(errorMessage);
   }
 };
 
@@ -43,38 +47,53 @@ findButton.addEventListener("click", isChecked);
 checkboxes.forEach((e) => {
   e.addEventListener("change", function () {
     if (this.checked === true || this.checked === false) {
+      while (racquetContainer.firstChild) {
+        bench.append(racquetContainer.lastChild);
+      }
       allButtons.append(findButton);
       nextButton.remove();
       resetBtn.remove();
       errorMessage.remove();
+      secondErrorMessage.remove();
       racquetContainer.innerText = "";
-
-      while (racquetContainer.firstChild) {
-        bench.append(racquetContainer.lastChild);
-      }
     }
   });
 });
 
+// Function to remove all child nodes
+const clearAll = () => {
+  while (bench.firstChild) {
+    bench.removeChild(bench.firstChild);
+  }
+};
+
+// Function to reset page
+
+const reloadPage = () => {
+  window.location.reload();
+};
+
 // Unchecks all selected checkboxes and clears out the currently shown racquet in the main container.
 
-const unCheckAll = () => {
+const clear = () => {
   checkboxesArr.forEach((el) => (el.checked = false));
+  while (racquetContainer.firstChild) {
+    bench.append(racquetContainer.lastChild);
+  }
   resetBtn.remove();
   nextButton.remove();
   buttonDiv.append(findButton);
   racquetContainer.innerText = "";
-
-  while (racquetContainer.firstChild) {
-    bench.append(racquetContainer.lastChild);
-  }
+  secondErrorMessage.remove();
 };
 
 const resetBtn = document.createElement("button");
 resetBtn.type = "button";
-resetBtn.innerText = "Uncheck All";
+resetBtn.innerText = "Clear";
+resetBtn.classList.add("button");
+resetBtn.setAttribute("id", "resetbtn");
 
-resetBtn.addEventListener("click", unCheckAll);
+resetBtn.addEventListener("click", clear);
 
 // Checks all checkboxes
 
@@ -88,7 +107,7 @@ resetBtn.addEventListener("click", unCheckAll);
 // Adds next button to show next available racquet options based on checked boxes.
 
 const nextButton = document.createElement("button");
-nextButton.classList.add("nextButton");
+nextButton.classList.add("button");
 nextButton.innerHTML = "Next";
 
 //Checking to see if Babolat with or without additional attribute was selected
@@ -179,7 +198,8 @@ const selectedWilson = () => {
   }
 };
 
-//Checking to see if Wilson and Babolat checkbox with or without additional attribute was selected
+//Checking to see if Wilson and Babolat checkbox with or without additional attribute was selected. This area also filters out if only
+// the Power, Control, or Popular checkbox is selected individually or together.
 
 const babWilSelected = () => {
   allButtons.append(nextButton);
@@ -192,35 +212,55 @@ const babWilSelected = () => {
   ) {
     babWilAlone();
   } else if (
-    wilson.checked === true &&
-    babolat.checked === true &&
-    power.checked === true &&
-    control.checked === false &&
-    popular.checked === false
+    (wilson.checked === true &&
+      babolat.checked === true &&
+      power.checked === true &&
+      control.checked === false &&
+      popular.checked === false) ||
+    (wilson.checked === false &&
+      babolat.checked === false &&
+      power.checked === true &&
+      control.checked === false &&
+      popular.checked === false)
   ) {
     babWilPower();
   } else if (
-    wilson.checked === true &&
-    babolat.checked === true &&
-    power.checked === false &&
-    control.checked === true &&
-    popular.checked === false
+    (wilson.checked === true &&
+      babolat.checked === true &&
+      power.checked === false &&
+      control.checked === true &&
+      popular.checked === false) ||
+    (wilson.checked === false &&
+      babolat.checked === false &&
+      power.checked === false &&
+      control.checked === true &&
+      popular.checked === false)
   ) {
     babWilControl();
   } else if (
-    wilson.checked === true &&
-    babolat.checked === true &&
-    power.checked === false &&
-    control.checked === false &&
-    popular.checked === true
+    (wilson.checked === true &&
+      babolat.checked === true &&
+      power.checked === false &&
+      control.checked === false &&
+      popular.checked === true) ||
+    (wilson.checked === false &&
+      babolat.checked === false &&
+      power.checked === false &&
+      control.checked === false &&
+      popular.checked === true)
   ) {
     babWilPopular();
   } else if (
-    wilson.checked === true &&
-    babolat.checked === true &&
-    power.checked === true &&
-    control.checked === true &&
-    popular.checked === false
+    (wilson.checked === true &&
+      babolat.checked === true &&
+      power.checked === true &&
+      control.checked === true &&
+      popular.checked === false) ||
+    (wilson.checked === false &&
+      babolat.checked === false &&
+      power.checked === true &&
+      control.checked === true &&
+      popular.checked === false)
   ) {
     babWilPowerControl();
   } else {
@@ -263,20 +303,23 @@ const babolatAlone = () => {
     Math.floor(Math.random() * babolatObject.length),
     1
   )[0];
-
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -302,17 +345,21 @@ const babolatPower = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -338,17 +385,21 @@ const babolatControl = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -374,17 +425,21 @@ const babolatPopular = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -410,17 +465,21 @@ const babolatPowerControl = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -446,17 +505,21 @@ const babolatAll = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -472,17 +535,21 @@ const wilsonAlone = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -508,17 +575,21 @@ const wilsonPower = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -544,17 +615,21 @@ const wilsonControl = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -580,17 +655,21 @@ const wilsonPopular = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -616,17 +695,21 @@ const wilsonPowerControl = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -652,17 +735,21 @@ const wilsonAll = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -678,17 +765,21 @@ const babWilAlone = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -714,17 +805,21 @@ const babWilPower = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -750,17 +845,21 @@ const babWilControl = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -786,17 +885,21 @@ const babWilPopular = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -822,17 +925,21 @@ const babWilPowerControl = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
   }
 };
@@ -858,17 +965,33 @@ const babWilAll = () => {
 
   if (randomRacquet === undefined) {
     nextButton.remove();
-    racquetContainer.innerText = "Please select new search parameters!";
+    errorMessageContainer.append(secondErrorMessage);
   } else {
     const racquetPod = document.createElement("div");
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
-    newRacDiv.append(racquetIMG, randomRacquet.name);
-    newRacDiv.setAttribute("class", `${randomRacquet.name.toLowerCase()}`);
+    racquetName.innerText = randomRacquet.name;
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
+    newRacDiv.append(racquetIMG);
+    newRacDiv.append(racquetName);
+    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetPod");
+    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    console.log(racquetDetails);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.append(racquetDetails);
+      newRacDiv.removeChild(racquetIMG);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {});
   }
 };

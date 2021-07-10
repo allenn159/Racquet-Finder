@@ -11,6 +11,8 @@ const racquets = {
       control: 12,
       popularity: 9,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BPATRR-1.jpg&nw=700",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 51,
@@ -19,6 +21,8 @@ const racquets = {
       control: 15,
       popularity: 4,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BPATRR-1.jpg&nw=700",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 52,
@@ -27,6 +31,8 @@ const racquets = {
       control: 10,
       popularity: 8,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BPATRR-1.jpg&nw=700",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 53,
@@ -35,6 +41,8 @@ const racquets = {
       control: 11,
       popularity: 9,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BRPDR-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 54,
@@ -43,6 +51,8 @@ const racquets = {
       control: 15,
       popularity: 5,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BRPDP-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 55,
@@ -51,6 +61,8 @@ const racquets = {
       control: 15,
       popularity: 9,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=PS1619-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 56,
@@ -59,6 +71,8 @@ const racquets = {
       control: 17,
       popularity: 5,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=PS182-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 57,
@@ -67,6 +81,8 @@ const racquets = {
       control: 17,
       popularity: 4,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BPSTTO-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 58,
@@ -75,6 +91,8 @@ const racquets = {
       control: 14,
       popularity: 6,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BPSTRI-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
   ],
   wilson: [
@@ -85,6 +103,8 @@ const racquets = {
       control: 12,
       popularity: 9,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WC100R-1.jpg&nw=700",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 61,
@@ -93,6 +113,8 @@ const racquets = {
       control: 13,
       popularity: 7,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WC98R-1.jpg&nw=700",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 62,
@@ -101,6 +123,8 @@ const racquets = {
       control: 14,
       popularity: 6,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WCTR-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 63,
@@ -109,6 +133,8 @@ const racquets = {
       control: 13,
       popularity: 9,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WB98R-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 64,
@@ -117,6 +143,8 @@ const racquets = {
       control: 16,
       popularity: 6,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WB9882-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 65,
@@ -125,6 +153,8 @@ const racquets = {
       control: 13,
       popularity: 7,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=WB104R-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 66,
@@ -133,6 +163,8 @@ const racquets = {
       control: 15,
       popularity: 9,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=W97V13-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 67,
@@ -141,6 +173,8 @@ const racquets = {
       control: 17,
       popularity: 9,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=97V13R-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
     {
       id: 68,
@@ -149,6 +183,8 @@ const racquets = {
       control: 12,
       popularity: 6,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=97LV13-1.jpg",
+      description:
+        "This would be a description of the racquet and why you would recommend it to the customer.",
     },
   ],
 };

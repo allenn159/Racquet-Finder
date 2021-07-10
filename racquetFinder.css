@@ -1,8 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+body {
+  background-color: #eeeeee;
+  font-family: "Poppins", sans-serif;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  font-size: 45px;
+  margin-bottom: 10px;
+}
+
 img {
-  height: 600px;
-  width: 350px;
+  height: 400px;
+  width: 225px;
+  border: 2px solid #4b778d;
+  border-radius: 15px;
+}
+
+p {
+  margin: 10px 0px 0px 0px;
 }
 
 #bench {
-  background-color: blue;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#buttons {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0px;
+}
+
+#errormessage {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+#racquetcontainer {
+  display: flex;
+  justify-content: center;
+}
+
+#resetbtn {
+  margin: 7px 5px;
+  font-family: "Poppins";
+  padding: 8px 15px;
+  border-radius: 10px;
+  border: 2px solid #febf63;
+  color: black;
+  background-color: #febf63;
+}
+
+#resetbtn:hover {
+  border: 2px solid #4b778d;
+  cursor: pointer;
+}
+
+.button {
+  margin: 7px 5px;
+  font-family: "Poppins";
+  padding: 8px 15px;
+  border-radius: 10px;
+  border: 2px solid #66de93;
+  color: black;
+  background-color: #66de93;
+}
+
+.button:hover {
+  border: 2px solid #4b778d;
+  cursor: pointer;
+}
+
+.checkboxes {
+  display: flex;
+  justify-content: center;
+  align-content: space-around;
+  flex-wrap: wrap;
+}
+
+.checkbox {
+  margin: 6px 10px 0px 10px;
+}
+
+.checkbox:hover {
+  cursor: pointer;
+}
+
+.details {
+  height: 400px;
+  width: 225px;
+  border: 2px solid #4b778d;
+  border-radius: 15px;
+  background-color: white;
+}
+
+.group {
+  display: flex;
+  justify-content: center;
+  margin: 0px 10px;
+}
+
+.racquet {
+  text-align: center;
+}
+
+.racquetpod {
+  margin: 0px 20px 20px 20px;
+}
+
+.selectors {
+  margin: 25px 0px;
 }

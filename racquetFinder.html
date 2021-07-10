@@ -10,21 +10,54 @@
   <body>
     <script src="racquetObjects.js"></script>
     <div class="mainContainer">
+      <h1>Racquet Finder</h1>
       <div class="selectors">
         <div class="checkboxes">
-          <input type="checkbox" name="" id="babolat" value="Babolat" />
-          <label for="babolat">Babolat</label>
-          <input type="checkbox" id="wilson" value="Wilson" />
-          <label for="wilson">Wilson</label>
-          <input type="checkbox" id="power" value="Power" />
-          <label for="power">Power</label>
-          <input type="checkbox" id="control" value="Control" />
-          <label for="control">Control</label>
-          <input type="checkbox" id="popular" value="Popular" />
-          <label for="popular">Popular</label>
+          <div class="group">
+            <input
+              class="checkbox"
+              type="checkbox"
+              name=""
+              id="babolat"
+              value="Babolat"
+            />
+            <label class="label" for="babolat">Babolat</label>
+          </div>
+          <div class="group">
+            <input
+              class="checkbox"
+              type="checkbox"
+              id="wilson"
+              value="Wilson"
+            />
+            <label class="label" for="wilson">Wilson</label>
+          </div>
+          <div class="group">
+            <input class="checkbox" type="checkbox" id="power" value="Power" />
+            <label class="label" for="power">Power</label>
+          </div>
+          <div class="group">
+            <input
+              class="checkbox"
+              type="checkbox"
+              id="control"
+              value="Control"
+            />
+            <label class="label" for="control">Control</label>
+          </div>
+          <div class="group">
+            <input
+              class="checkbox"
+              type="checkbox"
+              id="popular"
+              value="Popular"
+            />
+            <label class="label" for="popular">Popular</label>
+          </div>
         </div>
+        <div id="errormessage"></div>
         <div id="buttons">
-          <button type="button" id="find">Search</button>
+          <button type="button" class="button" id="find">Search</button>
         </div>
       </div>
       <div id="racquetcontainer"></div>
