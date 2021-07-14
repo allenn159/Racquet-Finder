@@ -60,32 +60,26 @@ checkboxes.forEach((e) => {
   });
 });
 
-// Function to remove all child nodes
+// Function to remove racquets from the bench.
 const clearAll = () => {
   while (bench.firstChild) {
     bench.removeChild(bench.firstChild);
   }
 };
 
-// Function to reset page
-
-const reloadPage = () => {
-  window.location.reload();
-};
-
 // Unchecks all selected checkboxes and clears out the currently shown racquet in the main container.
 
 const clear = () => {
   checkboxesArr.forEach((el) => (el.checked = false));
-  while (racquetContainer.firstChild) {
-    bench.append(racquetContainer.lastChild);
-  }
+  clearAll();
   resetBtn.remove();
   nextButton.remove();
   buttonDiv.append(findButton);
   racquetContainer.innerText = "";
   secondErrorMessage.remove();
 };
+
+// Creating reset button.
 
 const resetBtn = document.createElement("button");
 resetBtn.type = "button";
@@ -94,15 +88,6 @@ resetBtn.classList.add("button");
 resetBtn.setAttribute("id", "resetbtn");
 
 resetBtn.addEventListener("click", clear);
-
-// Checks all checkboxes
-
-// const checkAll = () => {
-//   checkboxesArr.forEach((el) => (el.checked = true));
-//   checkAllBtn.remove();
-// };
-
-// checkAllBtn.addEventListener("click", checkAll);
 
 // Adds next button to show next available racquet options based on checked boxes.
 
@@ -287,14 +272,6 @@ const nextCheck = () => {
   }
 };
 
-// Checks to see if the Wilson checkbox is selected for the next button.
-
-// const isWilsonChecked = () => {
-//   if (wilson.checked) {
-//     selectedWilson();
-//   }
-// };
-
 // This function filters out only Babolat racquets when the Babolat checkbox is selected.
 
 const babolatAlone = () => {
@@ -311,16 +288,27 @@ const babolatAlone = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
-    newRacDiv.append(racquetName);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
+    newRacDiv.append(racquetName, racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -334,6 +322,41 @@ babolatObject.filter((e) => {
   }
 });
 
+const runIt = (arr) => {
+  if (arr === undefined) {
+    nextButton.remove();
+    errorMessageContainer.append(secondErrorMessage);
+  } else {
+    const racquetPod = document.createElement("div");
+    const newRacDiv = document.createElement("div");
+    const racquetIMG = document.createElement("img");
+    const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
+
+    racquetIMG.src = `${arr.img}`;
+    racquetName.innerText = arr.name;
+    racquetDetails.innerText = arr.description;
+    racquetDetails.setAttribute("class", "details");
+    newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
+    newRacDiv.setAttribute("id", `${arr.name.toLowerCase()}`);
+    newRacDiv.setAttribute("class", "racquet");
+    racquetPod.append(newRacDiv);
+    racquetPod.setAttribute("class", "racquetpod");
+    racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
+  }
+};
+
 // This function filters out racquets only when the Babolat and Power checkbox is selected.
 
 const babolatPower = () => {
@@ -343,25 +366,7 @@ const babolatPower = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
-    newRacDiv.append(racquetName);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-  }
+  runIt(randomRacquet);
 };
 
 // Filter out Babolat racquets with control rating equal to or above 15 and pushes it into new array.
@@ -391,16 +396,29 @@ const babolatControl = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -431,16 +449,29 @@ const babolatPopular = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -471,16 +502,29 @@ const babolatPowerControl = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -511,16 +555,29 @@ const babolatAll = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -541,16 +598,29 @@ const wilsonAlone = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -581,16 +651,29 @@ const wilsonPower = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -621,16 +704,29 @@ const wilsonControl = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -661,16 +757,29 @@ const wilsonPopular = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -701,16 +810,29 @@ const wilsonPowerControl = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -741,16 +863,29 @@ const wilsonAll = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -771,16 +906,29 @@ const babWilAlone = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -811,16 +959,29 @@ const babWilPower = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -851,16 +1012,29 @@ const babWilControl = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -891,16 +1065,29 @@ const babWilPopular = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -931,16 +1118,29 @@ const babWilPowerControl = () => {
     const newRacDiv = document.createElement("div");
     const racquetIMG = document.createElement("img");
     const racquetName = document.createElement("p");
+    const racquetDetails = document.createElement("div");
 
     racquetIMG.src = `${randomRacquet.img}`;
     racquetName.innerText = randomRacquet.name;
-    newRacDiv.append(racquetIMG);
+    racquetDetails.innerText = randomRacquet.description;
+    racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
+
+    newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
+      newRacDiv.append(racquetDetails);
+    });
+
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };
 
@@ -977,21 +1177,22 @@ const babWilAll = () => {
     racquetName.innerText = randomRacquet.name;
     racquetDetails.innerText = randomRacquet.description;
     racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetIMG);
     newRacDiv.append(racquetName);
+    newRacDiv.append(racquetIMG);
     newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetPod.setAttribute("class", "racquetpod");
     racquetContainer.append(racquetPod);
 
-    console.log(racquetDetails);
-
     newRacDiv.addEventListener("mouseover", function () {
+      newRacDiv.removeChild(newRacDiv.lastChild);
       newRacDiv.append(racquetDetails);
-      newRacDiv.removeChild(racquetIMG);
     });
 
-    newRacDiv.addEventListener("mouseout", function () {});
+    newRacDiv.addEventListener("mouseout", function () {
+      newRacDiv.append(racquetIMG);
+      newRacDiv.removeChild(racquetDetails);
+    });
   }
 };

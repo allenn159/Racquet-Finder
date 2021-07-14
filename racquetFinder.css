@@ -17,6 +17,7 @@ img {
   width: 225px;
   border: 2px solid #4b778d;
   border-radius: 15px;
+  text-align: center;
 }
 
 p {
@@ -25,14 +26,14 @@ p {
 
 #bench {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 #buttons {
   display: flex;
   justify-content: center;
-  margin: 15px 0px;
+  margin: 15px 0px 0px 0px;
 }
 
 #errormessage {
@@ -44,6 +45,7 @@ p {
 #racquetcontainer {
   display: flex;
   justify-content: center;
+  margin-top: 0;
 }
 
 #resetbtn {
@@ -92,11 +94,18 @@ p {
 }
 
 .details {
-  height: 400px;
+  height: 407px;
   width: 225px;
   border: 2px solid #4b778d;
   border-radius: 15px;
   background-color: white;
+  color: black !important;
+}
+
+.duplicate {
+  color: red;
+  text-align: center;
+  margin: 0px 20px 20px 20px;
 }
 
 .group {
@@ -107,10 +116,11 @@ p {
 
 .racquet {
   text-align: center;
+  margin: 0px 20px 20px 20px;
 }
 
-.racquetpod {
-  margin: 0px 20px 20px 20px;
+.racquet:hover {
+  cursor: pointer;
 }
 
 .selectors {

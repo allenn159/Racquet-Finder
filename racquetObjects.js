@@ -12,7 +12,7 @@ const racquets = {
       popularity: 9,
       img: "https://img.tennis-warehouse.com/watermark/rs.php?path=BPATRR-1.jpg&nw=700",
       description:
-        "This would be a description of the racquet and why you would recommend it to the customer.",
+        "This would be a description of the racquet and why you would recommend it to the customer. ",
     },
     {
       id: 51,
@@ -56,7 +56,7 @@ const racquets = {
     },
     {
       id: 55,
-      name: "Babolat Pure Strike 16x19 3rd Gen",
+      name: "Babolat Pure Strike 16x19",
       power: 15,
       control: 15,
       popularity: 9,
@@ -66,7 +66,7 @@ const racquets = {
     },
     {
       id: 56,
-      name: "Babolat Pure Strike 18x20 3rd Gen",
+      name: "Babolat Pure Strike 18x20",
       power: 13,
       control: 17,
       popularity: 5,
@@ -76,7 +76,7 @@ const racquets = {
     },
     {
       id: 57,
-      name: "Babolat Pure Strike Tour 3rd Gen",
+      name: "Babolat Pure Strike Tour",
       power: 13,
       control: 17,
       popularity: 4,
@@ -86,7 +86,7 @@ const racquets = {
     },
     {
       id: 58,
-      name: "Babolat Pure Strike 100 3rd Gen",
+      name: "Babolat Pure Strike 100",
       power: 16,
       control: 14,
       popularity: 6,
@@ -118,7 +118,7 @@ const racquets = {
     },
     {
       id: 62,
-      name: "Wilson Clash 100 Pro (Formerly Tour)",
+      name: "Wilson Clash 100 Pro",
       power: 12,
       control: 14,
       popularity: 6,
