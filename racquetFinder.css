@@ -102,12 +102,6 @@ p {
   color: black !important;
 }
 
-.duplicate {
-  color: red;
-  text-align: center;
-  margin: 0px 20px 20px 20px;
-}
-
 .group {
   display: flex;
   justify-content: center;

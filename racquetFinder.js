@@ -1,14 +1,17 @@
 const findButton = document.querySelector("#find");
 const allButtons = document.querySelector("#buttons");
+const buttonDiv = document.querySelector("#buttons");
+const checkAllBtn = document.querySelector("#checkAll");
+
 const checkboxes = document.querySelectorAll("input[type=checkbox]");
 const racquetContainer = document.getElementById("racquetcontainer");
 const racquetDetails = document.getElementById("racquetdetails");
 const bench = document.getElementById("bench");
+
 const babolatObject = Object.values(racquets.babolat);
 const wilsonObject = Object.values(racquets.wilson);
 const babWilObject = Object.values(racquets.babolat.concat(racquets.wilson));
-const buttonDiv = document.querySelector("#buttons");
-const checkAllBtn = document.querySelector("#checkAll");
+
 const errorMessageContainer = document.querySelector("#errormessage");
 
 const babolat = document.querySelector("#babolat");
@@ -47,8 +50,8 @@ findButton.addEventListener("click", isChecked);
 checkboxes.forEach((e) => {
   e.addEventListener("change", function () {
     if (this.checked === true || this.checked === false) {
-      while (racquetContainer.firstChild) {
-        bench.append(racquetContainer.lastChild);
+      while (bench.firstChild) {
+        bench.removeChild(bench.firstChild);
       }
       allButtons.append(findButton);
       nextButton.remove();
@@ -83,7 +86,7 @@ const clear = () => {
 
 const resetBtn = document.createElement("button");
 resetBtn.type = "button";
-resetBtn.innerText = "Clear";
+resetBtn.innerText = "Reset";
 resetBtn.classList.add("button");
 resetBtn.setAttribute("id", "resetbtn");
 
@@ -272,15 +275,10 @@ const nextCheck = () => {
   }
 };
 
-// This function filters out only Babolat racquets when the Babolat checkbox is selected.
+// Function to generate racquet
 
-const babolatAlone = () => {
-  // Selects a random Babolat racquet and removes from array
-  const randomRacquet = babolatObject.splice(
-    Math.floor(Math.random() * babolatObject.length),
-    1
-  )[0];
-  if (randomRacquet === undefined) {
+const generateRacquet = (arr) => {
+  if (arr === undefined) {
     nextButton.remove();
     errorMessageContainer.append(secondErrorMessage);
   } else {
@@ -290,12 +288,12 @@ const babolatAlone = () => {
     const racquetName = document.createElement("p");
     const racquetDetails = document.createElement("div");
 
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
+    racquetIMG.src = arr.img;
+    racquetName.innerText = arr.name;
+    racquetDetails.innerText = arr.name + " " + arr.description;
     racquetDetails.setAttribute("class", "details");
     newRacDiv.append(racquetName, racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
+    newRacDiv.setAttribute("id", `${arr.name.toLowerCase()}`);
     newRacDiv.setAttribute("class", "racquet");
     racquetPod.append(newRacDiv);
     racquetContainer.append(racquetPod);
@@ -310,6 +308,18 @@ const babolatAlone = () => {
       newRacDiv.removeChild(racquetDetails);
     });
   }
+};
+
+// This function filters out only Babolat racquets when the Babolat checkbox is selected.
+
+const babolatAlone = () => {
+  // Selects a random Babolat racquet and removes from array
+  const randomRacquet = babolatObject.splice(
+    Math.floor(Math.random() * babolatObject.length),
+    1
+  )[0];
+
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Babolat racquets with power rating equal to or above 15 and pushes it into new array.
@@ -322,41 +332,6 @@ babolatObject.filter((e) => {
   }
 });
 
-const runIt = (arr) => {
-  if (arr === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${arr.img}`;
-    racquetName.innerText = arr.name;
-    racquetDetails.innerText = arr.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${arr.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
-};
-
 // This function filters out racquets only when the Babolat and Power checkbox is selected.
 
 const babolatPower = () => {
@@ -366,7 +341,7 @@ const babolatPower = () => {
     1
   )[0];
 
-  runIt(randomRacquet);
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Babolat racquets with control rating equal to or above 15 and pushes it into new array.
@@ -388,38 +363,7 @@ const babolatControl = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Babolat racquets with popular rating equal to or above 7 and pushes it into new array.
@@ -441,38 +385,7 @@ const babolatPopular = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Babolat racquets with power and control rating equal to or above 14 and pushes it into new array.
@@ -494,38 +407,7 @@ const babolatPowerControl = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Babolat racquets with power and control rating above 14, and popularity rating above 7, and pushes it into new array.
@@ -547,38 +429,7 @@ const babolatAll = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // This function filters out only Wilson racquets when the Wilson checkbox is selected.
@@ -590,38 +441,7 @@ const wilsonAlone = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Wilson racquets with power rating equal to or above 15 and pushes it into new array.
@@ -643,38 +463,7 @@ const wilsonPower = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Wilson racquets with control rating equal to or above 15 and pushes it into new array.
@@ -696,38 +485,7 @@ const wilsonControl = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Wilson racquets with popular rating equal to or above 7 and pushes it into new array.
@@ -749,38 +507,7 @@ const wilsonPopular = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Wilson racquets with power and control rating equal to or above 14 and pushes it into new array.
@@ -802,38 +529,7 @@ const wilsonPowerControl = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Wilson racquets with power and control rating above 14, and popularity rating above 7, and pushes it into new array.
@@ -855,38 +551,7 @@ const wilsonAll = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // This function filters out only Babolat and Wilson racquets when the respective checkboxes are selected.
@@ -898,38 +563,7 @@ const babWilAlone = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Babolat and Wilson racquets with power rating equal to or above 15 and pushes it into new array.
@@ -951,38 +585,7 @@ const babWilPower = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Wilson and Babolat racquets with control rating equal to or above 15 and pushes it into new array.
@@ -1004,38 +607,7 @@ const babWilControl = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Wilson and Babolat racquets with popular rating equal to or above 7 and pushes it into new array.
@@ -1057,38 +629,7 @@ const babWilPopular = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Wilson and Babolat racquets with power and control rating equal to or above 14 and pushes it into new array.
@@ -1110,38 +651,7 @@ const babWilPowerControl = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
 
 // Filter out Wilson and Babolat racquets with power and control rating above 14, and popularity rating above 7, and pushes it into new array.
@@ -1163,36 +673,5 @@ const babWilAll = () => {
     1
   )[0];
 
-  if (randomRacquet === undefined) {
-    nextButton.remove();
-    errorMessageContainer.append(secondErrorMessage);
-  } else {
-    const racquetPod = document.createElement("div");
-    const newRacDiv = document.createElement("div");
-    const racquetIMG = document.createElement("img");
-    const racquetName = document.createElement("p");
-    const racquetDetails = document.createElement("div");
-
-    racquetIMG.src = `${randomRacquet.img}`;
-    racquetName.innerText = randomRacquet.name;
-    racquetDetails.innerText = randomRacquet.description;
-    racquetDetails.setAttribute("class", "details");
-    newRacDiv.append(racquetName);
-    newRacDiv.append(racquetIMG);
-    newRacDiv.setAttribute("id", `${randomRacquet.name.toLowerCase()}`);
-    newRacDiv.setAttribute("class", "racquet");
-    racquetPod.append(newRacDiv);
-    racquetPod.setAttribute("class", "racquetpod");
-    racquetContainer.append(racquetPod);
-
-    newRacDiv.addEventListener("mouseover", function () {
-      newRacDiv.removeChild(newRacDiv.lastChild);
-      newRacDiv.append(racquetDetails);
-    });
-
-    newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
-      newRacDiv.removeChild(racquetDetails);
-    });
-  }
+  generateRacquet(randomRacquet);
 };
