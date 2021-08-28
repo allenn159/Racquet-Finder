@@ -2,6 +2,8 @@
 
 Developed with HTML, CSS, Javascript
 
+Project can be viewed here https://racquet-finder.vercel.app/
+
 Summary
 
 The purpose of this application is to act as a tool to help provide recommendations for products based on search parameters determined by checkbox selections.
