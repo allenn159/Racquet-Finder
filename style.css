@@ -8,6 +8,7 @@ body {
 h1 {
   display: flex;
   justify-content: center;
+  text-align: center;
   font-size: 45px;
   margin-bottom: 10px;
 }
@@ -86,7 +87,7 @@ p {
 }
 
 .checkbox {
-  margin: 6px 10px 0px 10px;
+  margin-right: 15px;
 }
 
 .checkbox:hover {
@@ -105,7 +106,8 @@ p {
 .group {
   display: flex;
   justify-content: center;
-  margin: 0px 10px;
+  align-items: center;
+  margin: 0px 20px;
 }
 
 .racquet {

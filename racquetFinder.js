@@ -33,7 +33,7 @@ secondErrorMessage.innerText = "Please select new search parameters!";
 // Checks to see if at least one checkbox is selected.
 
 const isChecked = () => {
-  if (checkboxesArr.some((el) => el.checked) === true) {
+  if (checkboxesArr.some((el) => el.checked)) {
     errorMessage.remove();
     findButton.remove();
     buttonDiv.append(resetBtn);
@@ -49,17 +49,15 @@ findButton.addEventListener("click", isChecked);
 
 checkboxes.forEach((e) => {
   e.addEventListener("change", function () {
-    if (this.checked === true || this.checked === false) {
-      while (bench.firstChild) {
-        bench.removeChild(bench.firstChild);
-      }
-      allButtons.append(findButton);
-      nextButton.remove();
-      resetBtn.remove();
-      errorMessage.remove();
-      secondErrorMessage.remove();
-      racquetContainer.innerText = "";
+    while (bench.firstChild) {
+      bench.removeChild(bench.firstChild);
     }
+    allButtons.append(findButton);
+    nextButton.remove();
+    resetBtn.remove();
+    errorMessage.remove();
+    secondErrorMessage.remove();
+    racquetContainer.innerText = "";
   });
 });
 
@@ -103,38 +101,38 @@ nextButton.innerHTML = "Next";
 const selectedBabolat = () => {
   allButtons.append(nextButton);
   if (
-    babolat.checked === true &&
-    power.checked === false &&
-    control.checked === false &&
-    popular.checked === false
+    babolat.checked &&
+    !power.checked &&
+    !control.checked &&
+    !popular.checked
   ) {
     babolatAlone();
   } else if (
-    babolat.checked === true &&
-    power.checked === true &&
-    control.checked === false &&
-    popular.checked === false
+    babolat.checked &&
+    power.checked &&
+    !control.checked &&
+    !popular.checked
   ) {
     babolatPower();
   } else if (
-    babolat.checked === true &&
-    power.checked === false &&
-    control.checked === true &&
-    popular.checked === false
+    babolat.checked &&
+    !power.checked &&
+    control.checked &&
+    !popular.checked
   ) {
     babolatControl();
   } else if (
-    babolat.checked === true &&
-    power.checked === false &&
-    control.checked === false &&
-    popular.checked === true
+    babolat.checked &&
+    !power.checked &&
+    !control.checked &&
+    popular.checked
   ) {
     babolatPopular();
   } else if (
-    babolat.checked === true &&
-    power.checked === true &&
-    control.checked === true &&
-    popular.checked === false
+    babolat.checked &&
+    power.checked &&
+    control.checked &&
+    !popular.checked
   ) {
     babolatPowerControl();
   } else {
@@ -147,38 +145,38 @@ const selectedBabolat = () => {
 const selectedWilson = () => {
   allButtons.append(nextButton);
   if (
-    wilson.checked === true &&
-    power.checked === false &&
-    control.checked === false &&
-    popular.checked === false
+    wilson.checked &&
+    !power.checked &&
+    !control.checked &&
+    !popular.checked
   ) {
     wilsonAlone();
   } else if (
-    wilson.checked === true &&
-    power.checked === true &&
-    control.checked === false &&
-    popular.checked === false
+    wilson.checked &&
+    power.checked &&
+    !control.checked &&
+    !popular.checked
   ) {
     wilsonPower();
   } else if (
-    wilson.checked === true &&
-    power.checked === false &&
-    control.checked === true &&
-    popular.checked === false
+    wilson.checked &&
+    !power.checked &&
+    control.checked &&
+    !popular.checked
   ) {
     wilsonControl();
   } else if (
-    wilson.checked === true &&
-    power.checked === false &&
-    control.checked === false &&
-    popular.checked === true
+    wilson.checked &&
+    !power.checked &&
+    !control.checked &&
+    popular.checked
   ) {
     wilsonPopular();
   } else if (
-    wilson.checked === true &&
-    power.checked === true &&
-    control.checked === true &&
-    popular.checked === false
+    wilson.checked &&
+    power.checked &&
+    control.checked &&
+    !popular.checked
   ) {
     wilsonPowerControl();
   } else {
@@ -192,63 +190,63 @@ const selectedWilson = () => {
 const babWilSelected = () => {
   allButtons.append(nextButton);
   if (
-    wilson.checked === true &&
-    babolat.checked === true &&
-    power.checked === false &&
-    control.checked === false &&
-    popular.checked === false
+    wilson.checked &&
+    babolat.checked &&
+    !power.checked &&
+    !control.checked &&
+    !popular.checked
   ) {
     babWilAlone();
   } else if (
-    (wilson.checked === true &&
-      babolat.checked === true &&
-      power.checked === true &&
-      control.checked === false &&
-      popular.checked === false) ||
-    (wilson.checked === false &&
-      babolat.checked === false &&
-      power.checked === true &&
-      control.checked === false &&
-      popular.checked === false)
+    (wilson.checked &&
+      babolat.checked &&
+      power.checked &&
+      !control.checked &&
+      !popular.checked) ||
+    (!wilson.checked &&
+      !babolat.checked &&
+      power.checked &&
+      !control.checked &&
+      !popular.checked)
   ) {
     babWilPower();
   } else if (
-    (wilson.checked === true &&
-      babolat.checked === true &&
-      power.checked === false &&
-      control.checked === true &&
-      popular.checked === false) ||
-    (wilson.checked === false &&
-      babolat.checked === false &&
-      power.checked === false &&
-      control.checked === true &&
-      popular.checked === false)
+    (wilson.checked &&
+      babolat.checked &&
+      !power.checked &&
+      control.checked &&
+      !popular.checked) ||
+    (!wilson.checked &&
+      !babolat.checked &&
+      !power.checked &&
+      control.checked &&
+      !popular.checked)
   ) {
     babWilControl();
   } else if (
-    (wilson.checked === true &&
-      babolat.checked === true &&
-      power.checked === false &&
-      control.checked === false &&
-      popular.checked === true) ||
-    (wilson.checked === false &&
-      babolat.checked === false &&
-      power.checked === false &&
-      control.checked === false &&
-      popular.checked === true)
+    (wilson.checked &&
+      babolat.checked &&
+      !power.checked &&
+      !control.checked &&
+      popular.checked) ||
+    (!wilson.checked &&
+      !babolat.checked &&
+      !power.checked &&
+      !control.checked &&
+      popular.checked)
   ) {
     babWilPopular();
   } else if (
-    (wilson.checked === true &&
-      babolat.checked === true &&
-      power.checked === true &&
-      control.checked === true &&
-      popular.checked === false) ||
-    (wilson.checked === false &&
-      babolat.checked === false &&
-      power.checked === true &&
-      control.checked === true &&
-      popular.checked === false)
+    (wilson.checked &&
+      babolat.checked &&
+      power.checked &&
+      control.checked &&
+      !popular.checked) ||
+    (!wilson.checked &&
+      !babolat.checked &&
+      power.checked &&
+      control.checked &&
+      !popular.checked)
   ) {
     babWilPowerControl();
   } else {
@@ -266,9 +264,9 @@ nextButton.addEventListener("click", () => {
 // Checks to see if the which checkbox is selected for the next button.
 
 const nextCheck = () => {
-  if (babolat.checked === true && wilson.checked === false) {
+  if (babolat.checked && wilson.checked === false) {
     selectedBabolat();
-  } else if (wilson.checked === true && babolat.checked === false) {
+  } else if (wilson.checked && babolat.checked === false) {
     selectedWilson();
   } else {
     babWilSelected();
@@ -304,8 +302,8 @@ const generateRacquet = (arr) => {
     });
 
     newRacDiv.addEventListener("mouseout", function () {
-      newRacDiv.append(racquetIMG);
       newRacDiv.removeChild(racquetDetails);
+      newRacDiv.append(racquetIMG);
     });
   }
 };
